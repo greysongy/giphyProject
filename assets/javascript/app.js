@@ -1,12 +1,13 @@
+//global variables to set an initial display mode for the user
 var niceMode = true;
 var ratingMode = false;
 
+//event listener that adds a new button, and ensures it has all of the correct information stored
 $("#submit").on("click", function () {
     if ($("#emotionInput").val() != "") {
         var newButton = $("<button>");
         newButton.addClass("btn btn-light border border-black m-2");
         newButton.addClass("apiB");
-        console.log($(newButton)[0].classList);
         newButton.html("<strong>" + $('#emotionInput').val() + "</strong>");
         newButton.attr("data-emotion", $("#emotionInput").val());
         $("#buttons").append(newButton);
@@ -14,6 +15,7 @@ $("#submit").on("click", function () {
 
 })
 
+//more lengthy event listener that deals with the click of a topic button, and then queries the GIPHY API to retrieve relevant info, before appending it according to the mode selected
 $(document).on("click", ".apiB", function () {
     var emotion = $(this).attr("data-emotion").toLowerCase();
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + emotion + "t&api_key=wslWpWhssAgYDK6zVXacBDsacT47flr4&limit=10";
@@ -28,12 +30,12 @@ $(document).on("click", ".apiB", function () {
                 $("#imgRow").empty();
                 $("#imgRowLower").empty();
             }
-            console.log(response);
             if (ratingMode) {
                 for (var i = 0; i < 10; i++) {
                     $("#" + (i + 1)).empty();
                 }
             }
+            //iterates through the ten returned objects
             for (var i = 0; i < 10; i++) {
                 var newImage = $("<img>");
                 newImage.addClass("gif");
@@ -52,32 +54,17 @@ $(document).on("click", ".apiB", function () {
                     }
                 }
                 else {
-                    console.log("#" + (i + 1));
                     $("#" + (i + 1)).append(newImage);
                     $("#" + (i + 1)).append("Rating: " + response.data[i].rating);
                 }
             }
-            // for(var i = 0; i < 10; i++) {
-            //     console.log(response.data[i].rating);
-            //     var rating = $("<h6>");
-            //     rating.text("Rating: " + response.data[i].rating);
-            //     if (i >= 5) {
-            //         $("#imgRowLower").append(rating);
-            //     }
-            //     else {
-            //         $("#imgRow").append(rating);
-            //     }
-            // }
         })
 })
 
+//additional listener that deals with pausing and unpausing gifs
 $(document).on("click", ".gif", function () {
     console.log("This ran");
-    // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
     var state = $(this).attr("data-state");
-    // If the clicked image's state is still, update its src attribute to what its data-animate value is.
-    // Then, set the image's data-state to animate
-    // Else set src to the data-still value
     if (state === "still") {
         $(this).attr("src", $(this).attr("data-animate"));
         $(this).attr("data-state", "animate");
@@ -87,6 +74,7 @@ $(document).on("click", ".gif", function () {
     }
 });
 
+//two final listeners that can be selected for a particular mode of display
 $("#aesthetic").on("click", function () {
     niceMode = true;
     ratingMode = false;
@@ -98,19 +86,5 @@ $("#aesthetic").on("click", function () {
 $("#rating").on("click", function () {
     ratingMode = true;
     niceMode = false;
-    // $("#imgRow").empty();
-    // $("#imgRowLower").empty();
 })
-
-// $("#submit").on("click", function () {
-//     if ($("#emotionInput").val() != "") {
-//         var newButton = $("<button>");
-//         newButton.addClass("btn btn-light border border-black m-2");
-//         newButton.addClass("apiB");
-//         newButton.html("<strong>" + $('#emotionInput').val() + "</strong>");
-//         newButton.attr("data-emotion", $("#emotionInput").val());
-//         $("#buttons").append(newButton);
-//     }
-
-// })
 
