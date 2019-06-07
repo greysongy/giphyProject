@@ -1,0 +1,14 @@
+body {
+    background: url("../images/weatherSSF.png");
+    background-size: cover;
+    /* background-repeat: no-repeat; */
+
+}
+
+.pink {
+    color: pink
+}
+
+.gifb {
+    color: white;
+}
