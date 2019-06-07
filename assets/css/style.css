@@ -9,10 +9,18 @@ body {
     color: pink
 }
 
-.gifb {
+.white {
     color: white;
 }
 
 .black{
     color: black;
 }
+
+/* .specHeight {
+    height: 100vh;
+} */
+
+ul#menu li {
+    display:inline;
+  }
