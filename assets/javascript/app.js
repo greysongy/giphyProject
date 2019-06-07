@@ -24,11 +24,15 @@ $(document).on("click", ".apiB", function () {
     })
 
         .then(function (response) {
-            // $("#imgRow").empty();
-            // $("#imgRowLower").empty();
+            if (niceMode) {
+                $("#imgRow").empty();
+                $("#imgRowLower").empty();
+            }
             console.log(response);
-            for (var i = 0; i < 10; i++) {
-                $("#" + (i + 1)).empty();
+            if (ratingMode) {
+                for (var i = 0; i < 10; i++) {
+                    $("#" + (i + 1)).empty();
+                }
             }
             for (var i = 0; i < 10; i++) {
                 var newImage = $("<img>");
@@ -39,15 +43,19 @@ $(document).on("click", ".apiB", function () {
                 newImage.attr("src", response.data[i].images.fixed_width_still.url);
                 newImage.addClass("border border-black ml-3 mt-3");
                 var rating = $("<h6>Rating");
-                // if (i >= 5) {
-                //     $("#imgRowLower").append(newImage);
-                // }
-                // else {
-                //     $("#imgRow").append(newImage);
-                // }
-                console.log("#" + (i + 1));
-                $("#" + (i + 1)).append(newImage);
-                $("#" + (i + 1)).append("Rating: " + response.data[i].rating);
+                if (niceMode) {
+                    if (i >= 5) {
+                        $("#imgRowLower").append(newImage);
+                    }
+                    else {
+                        $("#imgRow").append(newImage);
+                    }
+                }
+                else {
+                    console.log("#" + (i + 1));
+                    $("#" + (i + 1)).append(newImage);
+                    $("#" + (i + 1)).append("Rating: " + response.data[i].rating);
+                }
             }
             // for(var i = 0; i < 10; i++) {
             //     console.log(response.data[i].rating);
@@ -63,7 +71,7 @@ $(document).on("click", ".apiB", function () {
         })
 })
 
-$(document).on("click", ".gif", function() {
+$(document).on("click", ".gif", function () {
     console.log("This ran");
     // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
     var state = $(this).attr("data-state");
@@ -71,13 +79,28 @@ $(document).on("click", ".gif", function() {
     // Then, set the image's data-state to animate
     // Else set src to the data-still value
     if (state === "still") {
-      $(this).attr("src", $(this).attr("data-animate"));
-      $(this).attr("data-state", "animate");
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
     } else {
-      $(this).attr("src", $(this).attr("data-still"));
-      $(this).attr("data-state", "still");
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
     }
-  });
+});
+
+$("#aesthetic").on("click", function () {
+    niceMode = true;
+    ratingMode = false;
+    for (var i = 0; i < 10; i++) {
+        $("#" + (i + 1)).empty();
+    }
+})
+
+$("#rating").on("click", function () {
+    ratingMode = true;
+    niceMode = false;
+    // $("#imgRow").empty();
+    // $("#imgRowLower").empty();
+})
 
 // $("#submit").on("click", function () {
 //     if ($("#emotionInput").val() != "") {
